@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://dr8fqjjerau7y"]
+
+[ext_resource type="Texture2D" uid="uid://ult8owg6f6gk" path="res://sprites/fox_early.png" id="1_dgc4i"]
+[ext_resource type="Script" uid="uid://cw2ll57l3xs2a" path="res://prefabs/player/player.gd" id="1_qq40p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qq40p"]
+size = Vector2(14, 32)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qq40p"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Player" type="CharacterBody2D"]
+physics_interpolation_mode = 1
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_qq40p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_qq40p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("1_dgc4i")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -28)
+position_smoothing_enabled = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qq40p")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
