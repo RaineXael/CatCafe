@@ -22,7 +22,6 @@ theme = ExtResource("2_k63ie")
 text = "Press TAB to toggle chat"
 
 [node name="Chatbox" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,18 +64,5 @@ text = "Send"
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Message"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Chatbox/PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Chatbox/PanelContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Username:"
-
-[node name="LineEdit2" type="LineEdit" parent="Chatbox/PanelContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Eiko"
-placeholder_text = "Username"
 
 [connection signal="pressed" from="Chatbox/PanelContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_send_pressed"]

@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var message_container = $Chatbox/PanelContainer/VBoxContainer/ScrollContainer/ChatContainer
-@onready var username_textfield = $Chatbox/PanelContainer/VBoxContainer/HBoxContainer2/LineEdit2
+@onready var username:String = 'Eiko'
 @onready var text_textfield = $Chatbox/PanelContainer/VBoxContainer/HBoxContainer/LineEdit
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,8 +15,8 @@ func _process(delta: float) -> void:
 		$Chatbox.visible = not $Chatbox.visible
 
 func _on_send_pressed() -> void:
-	print('button rporwjikqawesrfjokawefsrjoikk')
-	rpc("msg_rpc", username_textfield.text, text_textfield.text)
+	if !text_textfield.text == '':
+		rpc("msg_rpc", username, text_textfield.text)
 
 @rpc ('any_peer', 'call_local')
 func msg_rpc(username, data):

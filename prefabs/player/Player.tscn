@@ -1,34 +1,122 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr8fqjjerau7y"]
+[gd_scene load_steps=12 format=3 uid="uid://dr8fqjjerau7y"]
 
-[ext_resource type="Texture2D" uid="uid://ult8owg6f6gk" path="res://sprites/fox_early.png" id="1_dgc4i"]
 [ext_resource type="Script" uid="uid://cw2ll57l3xs2a" path="res://prefabs/player/player.gd" id="1_qq40p"]
+[ext_resource type="Theme" uid="uid://bkj0ffyt1gs7h" path="res://fonts/theme.tres" id="2_1kmib"]
+[ext_resource type="Texture2D" uid="uid://cbnb4uwac4ktn" path="res://sprites/kitty_default.png" id="2_qq40p"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qq40p"]
-size = Vector2(14, 32)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qq40p"]
+radius = 5.09
+height = 18.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qq40p"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatedSprite2D:frame")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimatedSprite2D:animation")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("AnimatedSprite2D:flip_h")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("AnimatedSprite2D:self_modulate")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath("Camera2D/Label:text")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq40p"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kmib"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35c0j"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mamfr"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgtsh"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qq40p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qq40p")
+}],
+"loop": true,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kmib")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35c0j")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mamfr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgtsh")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animator")]
 physics_interpolation_mode = 1
 collision_layer = 2
+floor_snap_length = 2.7
 script = ExtResource("1_qq40p")
+animator = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -16)
-shape = SubResource("RectangleShape2D_qq40p")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -16)
-texture = ExtResource("1_dgc4i")
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_qq40p")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -28)
 position_smoothing_enabled = true
 
+[node name="Label" type="Label" parent="Camera2D"]
+offset_left = -17.0
+offset_top = -4.0
+offset_right = 23.0
+offset_bottom = 19.0
+theme = ExtResource("2_1kmib")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qq40p")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_qq40p")
+animation = &"idle"
+autoplay = "idle"
