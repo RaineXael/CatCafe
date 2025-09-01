@@ -5,11 +5,14 @@ extends CharacterBody2D
 const SPEED = 170.0
 const JUMP_VELOCITY = -400.0
 
+var money:int = 0
+
 @onready var camera:Camera2D = $Camera2D
 @export var animator:AnimatedSprite2D
+@onready var meow_sfx:AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var username = 'Eiko'
-
+var direction
 var superjumping = false
 var last_direction = 1
 func _enter_tree() -> void:
@@ -46,6 +49,11 @@ func _physics_process(delta: float) -> void:
 		elif superjumping:
 			superjumping = false
 		
+		if Input.is_action_just_pressed("interact"):
+			rpc("meow")
+		
+		if Input.is_action_just_pressed("down"):
+			meowing = false
 		
 		# Handle jump.
 		if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -53,13 +61,16 @@ func _physics_process(delta: float) -> void:
 				velocity.y = JUMP_VELOCITY/2
 				velocity.x = SPEED * 2.5 * last_direction
 				superjumping = true
+				$jumpsound.play()
 			else:
 				velocity.y = JUMP_VELOCITY
+				$jumpsound.play()
+				
 
-
-		var direction := Input.get_axis("left", "right")
+		direction = Input.get_axis("left", "right")
 		
 		if direction:
+			meowing = false
 			last_direction = direction/abs(direction)
 		
 		if not superjumping:
@@ -68,19 +79,43 @@ func _physics_process(delta: float) -> void:
 			if direction and not Input.is_action_pressed("down"):
 				velocity.x = direction * SPEED
 				animator.flip_h = direction < 0
+				
 			else:
 				
 				velocity.x = move_toward(velocity.x, 0, SPEED)
 		
 		if is_on_floor():
-			if Input.is_action_pressed("down"):
-				animator.play('crouch')
-			else:
-				if direction:
-					animator.play('walk')
+				if Input.is_action_pressed("down"):
+					if meowing:
+						animator.play('meow_crouch')
+					else:
+						animator.play('crouch')
+					
 				else:
-					animator.play('idle')
+					if meowing:
+						animator.play('meow')
+					else:
+						
+						if direction:
+							animator.play('walk')
+						else:
+							animator.play('idle')
 		else:
 			animator.play('jump')
 		
 		move_and_slide()
+
+var meowing:bool = false
+
+@rpc("any_peer", "call_local")
+func meow():
+	meow_sfx.play()
+	if is_on_floor() and direction == 0:
+		meowing = true
+
+
+func get_money(amount:int):
+	money += amount
+	$moneysound.play()
+	print('mnuy')
+	$CanvasLayer/Control/HBoxContainer/Moneycount.text = ': ' + str(money)

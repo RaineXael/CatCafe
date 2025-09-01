@@ -16,6 +16,8 @@ var peer: ENetMultiplayerPeer
 @export var username:LineEdit
 @export var color:ColorPickerButton
 
+@export var player_spawner:MultiplayerSpawner
+
 func get_server_info():
 	if OS.has_feature("dedicated_server"): return
 	PORT = server_port_input.text.to_int()
@@ -30,6 +32,8 @@ func start_server():
 	peer.create_server(PORT, MAX_CLIENTS)
 	multiplayer.multiplayer_peer = peer
 	textbox.username = username.text
+	if OS.has_feature("dedicated_server"): return
+	player_spawner.spawn_player(1)
 func start_client():
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(IP_ADDRESS, PORT)

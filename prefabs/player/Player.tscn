@@ -1,8 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://dr8fqjjerau7y"]
+[gd_scene load_steps=22 format=3 uid="uid://dr8fqjjerau7y"]
 
 [ext_resource type="Script" uid="uid://cw2ll57l3xs2a" path="res://prefabs/player/player.gd" id="1_qq40p"]
 [ext_resource type="Theme" uid="uid://bkj0ffyt1gs7h" path="res://fonts/theme.tres" id="2_1kmib"]
 [ext_resource type="Texture2D" uid="uid://cbnb4uwac4ktn" path="res://sprites/kitty_default.png" id="2_qq40p"]
+[ext_resource type="AudioStream" uid="uid://nncgnie1s81r" path="res://audio/sfx/snd_squeal.ogg" id="4_35c0j"]
+[ext_resource type="AudioStream" uid="uid://ded3og24fsf8n" path="res://audio/sfx/pickupCoin.wav" id="5_mamfr"]
+[ext_resource type="AudioStream" uid="uid://dp56o8f27t8yv" path="res://audio/sfx/jump.wav" id="6_xgtsh"]
+[ext_resource type="Texture2D" uid="uid://cc3qm4f30ygm3" path="res://sprites/collectible.png" id="7_jfcio"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qq40p"]
 radius = 5.09
@@ -40,6 +44,22 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("2_qq40p")
 region = Rect2(128, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfcio"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctndf"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hr8rp"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8r8t0"]
+atlas = ExtResource("2_qq40p")
+region = Rect2(256, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_mamfr"]
 atlas = ExtResource("2_qq40p")
 region = Rect2(32, 0, 32, 32)
@@ -76,6 +96,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_jfcio")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctndf")
+}],
+"loop": false,
+"name": &"meow",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hr8rp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8r8t0")
+}],
+"loop": true,
+"name": &"meow_crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_mamfr")
 }, {
 "duration": 1.0,
@@ -85,6 +127,16 @@ animations = [{
 "name": &"walk",
 "speed": 12.0
 }]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xvkw1"]
+random_pitch = 1.3
+streams_count = 1
+stream_0/stream = ExtResource("4_35c0j")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xgtsh"]
+random_pitch = 1.3
+streams_count = 1
+stream_0/stream = ExtResource("6_xgtsh")
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animator")]
 physics_interpolation_mode = 1
@@ -125,7 +177,41 @@ replication_config = SubResource("SceneReplicationConfig_qq40p")
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_qq40p")
-animation = &"idle"
+animation = &"meow_crouch"
 autoplay = "idle"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_xvkw1")
+pitch_scale = 0.62
+max_distance = 1000.0
+
+[node name="moneysound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_mamfr")
+
+[node name="jumpsound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_xgtsh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("2_1kmib")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+offset_top = 6.0
+offset_right = 55.0
+offset_bottom = 22.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_jfcio")
+stretch_mode = 3
+
+[node name="Moneycount" type="Label" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+text = ": 0"
