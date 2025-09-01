@@ -1,4 +1,6 @@
-extends CanvasLayer
+extends Control
+
+signal on_text_chat(text:String)
 
 @onready var message_container = $Chatbox/PanelContainer/VBoxContainer/ScrollContainer/ChatContainer
 @onready var username:String = 'Eiko'
@@ -14,10 +16,7 @@ func _process(delta: float) -> void:
 		$Label.visible = not $Label.visible
 		$Chatbox.visible = not $Chatbox.visible
 
-func _on_send_pressed() -> void:
-	if !text_textfield.text == '':
-		rpc("msg_rpc", username, text_textfield.text)
-		text_textfield.text = ''
+
 
 @rpc ('any_peer', 'call_local')
 func msg_rpc(username, data):
@@ -26,3 +25,10 @@ func msg_rpc(username, data):
 	a.autowrap_mode = TextServer.AUTOWRAP_WORD
 	a.custom_minimum_size.x = 192.0
 	message_container.add_child(a)
+
+
+func _on_button_pressed() -> void:
+	if !text_textfield.text == '':
+		rpc("msg_rpc", username, text_textfield.text)
+		on_text_chat.emit(text_textfield.text)
+		text_textfield.text = ''

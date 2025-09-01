@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfjvo5mm7dug8"
-path="res://.godot/imported/JoystickNodeIcon.png-d2cf410c0026a46999d11a25cd04e83c.ctex"
+uid="uid://bn2x415r1rbx1"
+path="res://.godot/imported/dialogbox.png-e0d4963ef8da1d7e2d3fbba0e7f67353.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/versatile-mobile-joystick/JoystickNodeIcon.png"
-dest_files=["res://.godot/imported/JoystickNodeIcon.png-d2cf410c0026a46999d11a25cd04e83c.ctex"]
+source_file="res://sprites/dialogbox.png"
+dest_files=["res://.godot/imported/dialogbox.png-e0d4963ef8da1d7e2d3fbba0e7f67353.ctex"]
 
 [params]
 

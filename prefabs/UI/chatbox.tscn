@@ -3,19 +3,25 @@
 [ext_resource type="Script" uid="uid://cihriqpjixatv" path="res://prefabs/UI/chatbox.gd" id="1_kfpen"]
 [ext_resource type="Theme" uid="uid://bkj0ffyt1gs7h" path="res://fonts/theme.tres" id="2_k63ie"]
 
-[node name="Chatbox" type="CanvasLayer"]
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_kfpen")
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -162.0
-offset_top = -22.0
+offset_top = -23.0
 offset_right = -10.0
-offset_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("2_k63ie")
@@ -23,7 +29,7 @@ text = "Press TAB to toggle chat"
 
 [node name="Chatbox" type="Control" parent="."]
 visible = false
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -59,11 +65,13 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="Chatbox/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+focus_mode = 1
 text = "Send"
 
 [node name="LineEdit" type="LineEdit" parent="Chatbox/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 1
 placeholder_text = "Enter Message"
 
-[connection signal="pressed" from="Chatbox/PanelContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_send_pressed"]
+[connection signal="pressed" from="Chatbox/PanelContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
