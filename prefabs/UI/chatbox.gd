@@ -17,6 +17,7 @@ func _process(delta: float) -> void:
 func _on_send_pressed() -> void:
 	if !text_textfield.text == '':
 		rpc("msg_rpc", username, text_textfield.text)
+		text_textfield.text = ''
 
 @rpc ('any_peer', 'call_local')
 func msg_rpc(username, data):
