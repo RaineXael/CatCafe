@@ -1,3 +1,4 @@
+class_name PlayerMultiplayerSpawner
 extends MultiplayerSpawner
 
 
@@ -10,7 +11,9 @@ func _ready() -> void:
 func spawn_player_with_metadata(id:int, username:String, color:Color = Color.WHITE):
 	#spawn_player(1)
 	pass
-func spawn_player(id:int) -> void:
+func spawn_player(id:int):
+	
+	#only do it if called from the server
 	if not multiplayer.is_server(): return
 	
 	var player: Player = net_player.instantiate()

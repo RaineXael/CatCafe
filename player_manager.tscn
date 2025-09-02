@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://btmsu7o743hto"]
+
+[ext_resource type="Script" uid="uid://bosm56vrumwlx" path="res://scenes/multiplayer_spawner.gd" id="1_ahlmt"]
+[ext_resource type="Script" uid="uid://031vp1t0rv8q" path="res://player_manager.gd" id="1_wm554"]
+[ext_resource type="PackedScene" uid="uid://dr8fqjjerau7y" path="res://prefabs/player/Player.tscn" id="2_wm554"]
+
+[node name="PlayerManager" type="Node2D"]
+script = ExtResource("1_wm554")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://dr8fqjjerau7y")
+spawn_path = NodePath("../PlayerCollection")
+script = ExtResource("1_ahlmt")
+net_player = ExtResource("2_wm554")
+
+[node name="PlayerCollection" type="Node2D" parent="."]

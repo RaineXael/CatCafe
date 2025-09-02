@@ -1,10 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://55p6dnk52tkk"]
+[gd_scene load_steps=6 format=3 uid="uid://55p6dnk52tkk"]
 
 [ext_resource type="Script" uid="uid://fcs74y1oqy5f" path="res://scenes/master_scene.gd" id="1_qrtlt"]
 [ext_resource type="Script" uid="uid://cijxqw4dokppu" path="res://scenes/network_manager.gd" id="1_rn33l"]
-[ext_resource type="Script" uid="uid://bosm56vrumwlx" path="res://scenes/multiplayer_spawner.gd" id="2_5gx8y"]
 [ext_resource type="Theme" uid="uid://bkj0ffyt1gs7h" path="res://fonts/theme.tres" id="3_3ei2u"]
-[ext_resource type="PackedScene" uid="uid://dr8fqjjerau7y" path="res://prefabs/player/Player.tscn" id="4_l45s8"]
 [ext_resource type="Script" uid="uid://b4vgk72lqimc" path="res://scenes/main_menu.gd" id="4_qx3wq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vb3gq"]
@@ -18,14 +16,13 @@ shadow_offset = Vector2(2, 2)
 [node name="MasterScene" type="Node2D"]
 script = ExtResource("1_qrtlt")
 
-[node name="NetworkManager" type="Node" parent="." node_paths=PackedStringArray("client_ip_input", "client_port_input", "server_port_input", "username", "color", "player_spawner")]
+[node name="NetworkManager" type="Node" parent="." node_paths=PackedStringArray("client_ip_input", "client_port_input", "server_port_input", "username", "color")]
 script = ExtResource("1_rn33l")
 client_ip_input = NodePath("MainMenu/VBoxContainer2/HBoxContainer/Control/ClientIP")
 client_port_input = NodePath("MainMenu/VBoxContainer2/HBoxContainer/Control/clientPort")
 server_port_input = NodePath("MainMenu/VBoxContainer2/HBoxContainer/Control/Serverport")
 username = NodePath("MainMenu/VBoxContainer2/HBoxContainer/VBoxContainer/HBoxContainer/Username")
 color = NodePath("MainMenu/VBoxContainer2/HBoxContainer/VBoxContainer/HBoxContainer2/ColorPickerButton")
-player_spawner = NodePath("../MultiplayerSpawner")
 
 [node name="MainMenu" type="PanelContainer" parent="NetworkManager"]
 anchors_preset = 15
@@ -57,20 +54,23 @@ custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 
 [node name="Button" type="Button" parent="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control"]
+visible = false
 layout_mode = 2
 text = "Server"
 
 [node name="Serverport" type="LineEdit" parent="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control"]
+visible = false
 layout_mode = 2
 text = "5029"
 placeholder_text = "Server Port"
 
 [node name="HSeparator" type="HSeparator" parent="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control"]
+visible = false
 layout_mode = 2
 
 [node name="Button2" type="Button" parent="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control"]
 layout_mode = 2
-text = "Client"
+text = "Connect"
 
 [node name="ClientIP" type="LineEdit" parent="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control"]
 layout_mode = 2
@@ -116,13 +116,7 @@ autowrap_mode = 2
 color = Color(1, 1, 1, 1)
 edit_alpha = false
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://dr8fqjjerau7y")
-spawn_path = NodePath("../PlayerCollection")
-script = ExtResource("2_5gx8y")
-net_player = ExtResource("4_l45s8")
-
-[node name="PlayerCollection" type="Node2D" parent="."]
+[node name="ServerManager" type="Node2D" parent="."]
 
 [connection signal="pressed" from="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control/Button" to="NetworkManager" method="_on_button_pressed"]
 [connection signal="pressed" from="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control/Button2" to="NetworkManager" method="_on_button_2_pressed"]

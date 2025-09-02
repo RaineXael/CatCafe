@@ -22,7 +22,7 @@ var direction
 var superjumping = false
 var last_direction = 1
 
-@onready var player_collection = get_node('/root/MasterScene/PlayerCollection')
+#@onready var player_collection = get_node('/root/MasterScene/PlayerCollection')
 
 
 func _enter_tree() -> void:
@@ -30,6 +30,8 @@ func _enter_tree() -> void:
 	
 func _ready() -> void:
 		if multiplayer.get_unique_id() == name.to_int():
+			if not multiplayer.is_server():
+				get_node('/root/MasterScene').current_player = self
 			$Camera2D.make_current()
 			$AudioListener2D.make_current()
 			$PlayerUI.visible = true
@@ -56,7 +58,7 @@ func _physics_process(delta: float) -> void:
 			camera.enabled = false
 			
 			return
-		
+		#print('raaaaaahhhh')
 		
 		if Input.is_action_just_pressed("zoom_in"):
 			camera.zoom += Vector2(0.1,0.1)

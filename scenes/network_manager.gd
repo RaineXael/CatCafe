@@ -15,7 +15,6 @@ var peer: ENetMultiplayerPeer
 @export var username:LineEdit
 @export var color:ColorPickerButton
 
-@export var player_spawner:MultiplayerSpawner
 
 @onready var master_scene = $".."
 
@@ -36,15 +35,20 @@ func start_server():
 	peer.create_server(PORT, MAX_CLIENTS)
 	multiplayer.multiplayer_peer = peer
 	#textbox.username = username.text
-	if OS.has_feature("dedicated_server"): return
-	player_spawner.spawn_player(1)
-	master_scene.load_level("res://scenes/level_1.tscn")
+	master_scene.load_level(0)
+	if OS.has_feature("dedicated_server"): 
+		master_scene.load_level(1) 
+		return
+	
+
+	#player_spawner.spawn_player(1)
+	
 	save_data()
 func start_client():
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(IP_ADDRESS, PORT)
 	multiplayer.multiplayer_peer = peer
-	master_scene.load_level("res://scenes/level_1.tscn")
+	master_scene.load_level(0)
 	save_data()
 func _on_button_pressed() -> void:
 	get_server_info()
