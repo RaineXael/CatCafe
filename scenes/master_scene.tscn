@@ -18,6 +18,10 @@ shadow_offset = Vector2(2, 2)
 [node name="MasterScene" type="Node2D"]
 script = ExtResource("1_qrtlt")
 
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("")
+spawn_path = NodePath("../LevelCollection")
+
 [node name="NetworkManager" type="Node" parent="." node_paths=PackedStringArray("client_ip_input", "client_port_input", "server_port_input", "username", "color", "player_spawner")]
 script = ExtResource("1_rn33l")
 client_ip_input = NodePath("MainMenu/VBoxContainer2/HBoxContainer/Control/ClientIP")
@@ -123,6 +127,8 @@ script = ExtResource("2_5gx8y")
 net_player = ExtResource("4_l45s8")
 
 [node name="PlayerCollection" type="Node2D" parent="."]
+
+[node name="LevelCollection" type="Node2D" parent="."]
 
 [connection signal="pressed" from="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control/Button" to="NetworkManager" method="_on_button_pressed"]
 [connection signal="pressed" from="NetworkManager/MainMenu/VBoxContainer2/HBoxContainer/Control/Button2" to="NetworkManager" method="_on_button_2_pressed"]

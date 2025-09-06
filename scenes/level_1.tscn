@@ -142,3 +142,7 @@ texture = ExtResource("6_pa8r4")
 
 [node name="Area2D10" parent="." instance=ExtResource("7_pa8r4")]
 position = Vector2(126, 161)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(493, 137)
+scale = Vector2(155.65, 28.9)
